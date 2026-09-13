@@ -144,6 +144,7 @@ fun NewGameScreen(onBack: () -> Unit, onGameStarted: () -> Unit) {
                     selected = boardSize == size,
                     onClick = { boardSize = size },
                     shape = SegmentedButtonDefaults.itemShape(i, Board.SUPPORTED_SIZES.size),
+                    icon = {},
                 ) { Text("$size×$size") }
             }
         }
@@ -193,6 +194,7 @@ fun NewGameScreen(onBack: () -> Unit, onGameStarted: () -> Unit) {
                     selected = firstChoice == choice,
                     onClick = { firstChoice = choice },
                     shape = SegmentedButtonDefaults.itemShape(i, options.size),
+                    icon = {},
                 ) { Text(label, maxLines = 1) }
             }
         }
@@ -204,6 +206,7 @@ fun NewGameScreen(onBack: () -> Unit, onGameStarted: () -> Unit) {
                     selected = timer == sec,
                     onClick = { timer = sec },
                     shape = SegmentedButtonDefaults.itemShape(i, GameSettings.TIMER_OPTIONS.size),
+                    icon = {},
                 ) { Text(if (sec == 0) "Выкл" else "$sec с") }
             }
         }
@@ -215,6 +218,7 @@ fun NewGameScreen(onBack: () -> Unit, onGameStarted: () -> Unit) {
                     selected = hintLimit == n,
                     onClick = { hintLimit = n },
                     shape = SegmentedButtonDefaults.itemShape(i, GameSettings.HINT_LIMIT_OPTIONS.size),
+                    icon = {},
                 ) { Text(if (n == GameSettings.UNLIMITED_HINTS) "∞" else n.toString()) }
             }
         }
@@ -230,6 +234,7 @@ fun NewGameScreen(onBack: () -> Unit, onGameStarted: () -> Unit) {
                         selected = hintPenalty == p,
                         onClick = { hintPenalty = p },
                         shape = SegmentedButtonDefaults.itemShape(i, GameSettings.HINT_PENALTY_OPTIONS.size),
+                        icon = {},
                     ) { Text(if (p == 0) "Нет" else "−$p") }
                 }
             }

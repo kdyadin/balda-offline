@@ -63,6 +63,7 @@ fun SettingsScreen(onBack: () -> Unit) {
                     selected = settings.themeMode == mode,
                     onClick = { scope.launch { settingsRepo.setThemeMode(mode) } },
                     shape = SegmentedButtonDefaults.itemShape(i, options.size),
+                    icon = {},
                 ) { Text(label, maxLines = 1) }
             }
         }

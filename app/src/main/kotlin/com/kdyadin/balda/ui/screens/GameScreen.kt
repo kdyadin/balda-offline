@@ -1,6 +1,11 @@
 package com.kdyadin.balda.ui.screens
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -35,6 +41,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -164,6 +171,24 @@ fun GameScreen(onExitToMenu: () -> Unit, onFinished: () -> Unit) {
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
             )
         },
+        bottomBar = {
+            // Клавиатура нужна только в момент выбора буквы для пустой клетки; закреплена внизу, чтобы всегда была видна целиком.
+            AnimatedVisibility(
+                visible = state.phase == GamePhase.PLAYING && state.selectedCell != null,
+                enter = slideInVertically { it } + fadeIn(),
+                exit = slideOutVertically { it } + fadeOut(),
+            ) {
+                Surface(color = MaterialTheme.colorScheme.surfaceContainerLow) {
+                    LetterKeyboard(
+                        enabled = true,
+                        onLetter = vm::onLetter,
+                        modifier = Modifier
+                            .navigationBarsPadding()
+                            .padding(horizontal = 8.dp, vertical = 8.dp),
+                    )
+                }
+            }
+        },
         snackbarHost = {
             SnackbarHost(snackbar) { data ->
                 Snackbar(
@@ -189,8 +214,8 @@ fun GameScreen(onExitToMenu: () -> Unit, onFinished: () -> Unit) {
             Spacer(Modifier.height(8.dp))
             val board = state.boardWithPending ?: game.board
             val lastMove = (game.log.lastOrNull { it is LogEntry.Word } as? LogEntry.Word)?.entry?.path.orEmpty()
-            // Поле не выше ~37% экрана, чтобы клавиатура и кнопки помещались без прокрутки.
-            val boardMax = (LocalConfiguration.current.screenHeightDp * 0.37f).dp
+            // Поле не выше ~42% экрана, чтобы клавиатура и кнопки помещались без прокрутки.
+            val boardMax = (LocalConfiguration.current.screenHeightDp * 0.42f).dp
             BoardView(
                 modifier = Modifier.widthIn(max = boardMax),
                 board = board,
@@ -224,11 +249,6 @@ fun GameScreen(onExitToMenu: () -> Unit, onFinished: () -> Unit) {
                         .height(48.dp),
                 ) { Text("Подтвердить") }
             }
-            Spacer(Modifier.height(10.dp))
-            LetterKeyboard(
-                enabled = state.phase == GamePhase.PLAYING && (state.selectedCell != null || state.hasPendingLetter),
-                onLetter = vm::onLetter,
-            )
             Spacer(Modifier.height(12.dp))
         }
     }
