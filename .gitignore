@@ -1,0 +1,17 @@
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build/
+/*/build/
+/captures
+.externalNativeBuild
+.cxx
+*.log
+/tools/build-dictionary/work/
+/tools/build-dictionary/dist/
+/tools/build-dictionary/.venv/
+__pycache__/
+
+/keystore/

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Только для отладочных сборок: позволяет проверять загрузку базы толкований с локального HTTP-сервера. -->
+    <application
+        android:usesCleartextTraffic="true"
+        tools:ignore="UnusedAttribute" />
+</manifest>
